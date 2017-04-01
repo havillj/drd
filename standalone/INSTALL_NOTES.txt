@@ -1,0 +1,89 @@
+Installation Notes for DRD (Denison Riboswitch Detector):
+
+	1. Install mfold (http://mfold.rna.albany.edu/?q=mfold/download-mfold).
+	   (May require additional packages, including gfortran.)
+
+	2. Add the location of the mfold executable to your PATH variable in
+	  .bashrc.
+
+	3. Change into the drd directory and execute the
+	
+	      $ make
+	      
+	   command.  This will create the drd executable in the drd directory.
+
+	OPTIONAL:
+
+	4. In Makefile, change the drd installation directory (the value of 
+	   INSTALLDIR) as desired.  (The default is /usr/local/bin.)
+
+	5. Execute the 
+	
+	      $ sudo make install 
+	      
+	   command while in the drd directory.  This will copy the drd 
+	   executable, the defFiles directory, and Ct2b.pl to the installation 
+	   directory.  (sudo is not necessary if you are installing to a
+	   directory that you own.)
+
+DRD Execution (as displayed when executing drd --help):
+
+	Usage: drd [--orfs orf_len] --ouput output_directory --ribo ribo_type1 [ribo_type2 ... ribo_typen] sequence_filename
+
+	Command line options:
+	--orfs orf_len
+	    indicates that only riboswitches that are not within an open reading
+	    frame with minimum length orf_len (measured in codons) should be
+	    returned. 
+
+	--output output_directory
+	    indicates that output_directory is the directory to which results
+	    will be written.  If the directory does not already exist, it will 
+	    be created.
+
+	--ribo ribo_type1 [ribo_type2 ... ribo_typen]
+	    indicates the riboswitch types to search for.  The types are 
+	    specified by the names of riboswitch definition files that 
+	    are located in the defFiles folder.  (Do not include the .def 
+	    extension.)
+	    
+	    For instructions on how to create your own riboswitch definition 
+	    file, go to drd.denison.edu and hit the Help button.
+
+	sequence_filename
+	    the name of the FASTA file containing the input sequence(s). 
+	    The sequence file may contain multiple sequences.
+	    
+	Example: drd --orfs 120 --output DRD_RESULTS --ribo TPP SAM-I seq_file.fasta
+
+Output:
+
+	DRD will create a subdirectory of the given "output_directory", named after
+	the sequence file (omitting the suffix).  In this directory, you will
+	find an HTML file named index.html that contains links to all of the
+	results.  For example, for the example invocation above, the web page will
+	be created at DRD_RESULTS/seq_file/index.html.  You can then open this HTML
+	file with any convenient web browser.
+
+Additional Notes:
+
+	If you execute the DRD with the same sequence file in the same output
+	directory twice, you will be prompted whether to overwrite the existing 
+	results.
+
+	Upon execution of the DRD, the output similar to the following may
+	be displayed:
+
+		1, 
+		10,20,30,40,50,60,70,80,90, 
+		End of Fill
+
+	This is the result of the execution of mfold by the DRD, and may
+	be ignored.
+
+	The Ct2b.pl program, which is used by DRD, was created by M. Zuker 
+	and can be found at
+	http://mfold.rna.albany.edu/download/Utils/Ct2B.pl
+
+If you discover any errors, please feel free to contact Jessen Havill at
+havill@denison.edu.
